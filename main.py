@@ -1,4 +1,5 @@
 import os
+import logging
 from dotenv import load_dotenv
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackContext, CallbackQueryHandler
@@ -53,6 +54,9 @@ async def check_response(context: CallbackContext):
 
 def main():
     load_dotenv()
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logging.getLogger('httpx').setLevel(logging.WARNING)
+
     app = ApplicationBuilder().token(token=os.getenv('TG_TOKEN')).build()
 
     app.add_handler(CallbackQueryHandler(button))
